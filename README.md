@@ -89,6 +89,9 @@ No it is not. You can stop training at any time you want. Anyway I recommend to 
 Stop sequence: 1) RoboMaker, 2) SageMaker, 3) Minio (ctrl-C).
 
 You need to use docker to correctly stop training.
+
 `docker ps -a` will list your containers.
+
 `docker stop [id of robomaker container] [id of sagemaker container]` you need to provide only first couple of letters of Id.
+
 `docker rm [id of sagemaker container]` RoboMaker was started with autoremove attribute, but SageMaker was started from Python file without autoremove.
