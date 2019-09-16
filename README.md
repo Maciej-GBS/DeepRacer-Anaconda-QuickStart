@@ -9,6 +9,7 @@ For help and more details about elements of DeepRacer local installation [refer 
 - Linux based host (this repo was tested on Ubuntu 18.04 LTS)
 - Python 3
 - Preferably a GPU (I won't cover setup for AMD graphics cards)
+- git obviously
 
 ## Let's begin
 ### NVIDIA GPU setup
