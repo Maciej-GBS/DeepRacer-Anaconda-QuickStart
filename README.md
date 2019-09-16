@@ -13,11 +13,11 @@ It is a powerful tool that allows you to have multiple different installation of
 ## What do you need?
 - Linux based host (this repo was tested on Ubuntu 18.04 LTS)
 - Python 3, Anaconda
-- Minio
+- [Minio](https://min.io/download#/linux)
 - Preferably a GPU (I won't cover setup for AMD graphics cards)
 - git obviously
 
-**NOTE** Cloning this repo is not required. It contains my scripts to run some common commands.
+**NOTE** Cloning this repo is not required. It contains only my scripts to run some common commands.
 
 ## Let's begin
 ### NVIDIA GPU setup
@@ -53,6 +53,7 @@ Alternatively: `conda activate awsdr` but this may require `conda init` first
 Disabling environment: `conda deactivate`
 
 ## Getting guru's repo
+I should walk through this here but I have added a new directory, which needs explanation.
 `git clone --recurse-submodules https://github.com/crr0004/deepracer.git`
 Once downloaded some changes should be made:
 - rl_coach/rl_deepracer_robomaker.py :
@@ -61,8 +62,8 @@ Once downloaded some changes should be made:
 -- `hyperparameters={...}` - this should be changed to your liking
 - guru's repo root:
 -- `mkdir -p robo/container` - used to store SageMaker image temporary files
--- `mkdir robo/job` - used to store logs from RoboMaker
 -- `mkdir -p ~/.sagemaker && cp config.yaml ~/.sagemaker` - get configuration for sagemaker
+-- `mkdir robo/job` - my extra directory used to store logs from RoboMaker
 
 ## Firing it up
 First step is to install sagemaker in our environment. To do this activate environment and type this command inside deepracer folder (guru's repo):
@@ -81,3 +82,13 @@ You may also want to configure awscli using this command: `aws configure`.
 
 ### RoboMaker startup
 `docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -v $(pwd)/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src -v $(pwd)/robo/job:/root/.ros/ -it crr0004/deepracer_robomaker:console "./run.sh build distributed_training.launch"`
+
+## Stop it! It is out of control!
+No it is not. You can stop training at any time you want. Anyway I recommend to reduce `NUMBER_OF_EPISODES` in `robomaker.env` to some reasonable value like 2000. This prevents from using all your drive space and from crashing system because of that.
+
+Stop sequence: 1) RoboMaker, 2) SageMaker, 3) Minio (ctrl-C).
+
+You need to use docker to correctly stop training.
+`docker ps -a` will list your containers.
+`docker stop [id of robomaker container] [id of sagemaker container]` you need to provide only first couple of letters of Id.
+`docker rm [id of sagemaker container]` RoboMaker was started with autoremove attribute, but SageMaker was started from Python file without autoremove.
