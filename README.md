@@ -5,7 +5,7 @@ Setup your environment fast and easy with advanced access to all goodies from cr
 
 For help and more details about elements of DeepRacer local installation [refer to our guru repository](https://github.com/crr0004/deepracer).
 
-**Warning:** this repository is created for advanced users who want to benefit of having everything set inside Anaconda. It is not plug and play like other fantastic repos. It is a start for using guru's repo and building more on it.
+**Warning:** This repository is an adaptation of my way of using guru's DeepRacer repository. It is not plug and play like other fantastic repos (it is meant to be a source of information). It is a start for using guru's repo and building more on it.
 
 ## Why Anaconda?
 It is a powerful tool that allows you to have multiple different installation of Python environments including required libraries. It is convenient and helps to keep your system tidy.
