@@ -26,7 +26,7 @@ Get nvidia drivers (using ppa is better but slightly more advanced). Reboot. Run
 - [Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 - [Docker-compose](https://docs.docker.com/compose/install/#install-compose)
 - **[Docker group created](https://docs.docker.com/install/linux/linux-postinstall/)**
-- [nvidia-docker](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0)) **only for nVidia GPU users**
+- [nvidia-docker](https://github.com/NVIDIA/nvidia-docker/wiki/Installation-(version-2.0))
 
 I am not going to go through installation process of those again. If you need a summary or help in these first steps [refer to this](https://github.com/ARCC-RACE/deepracer-for-dummies).
 
@@ -52,3 +52,24 @@ Disabling environment: `conda deactivate`
 
 ## Getting guru's repo
 `git clone --recurse-submodules https://github.com/crr0004/deepracer.git`
+Once downloaded some changes should be made:
+- rl_coach/rl_deepracer_robomaker.py :
+-- `instance_type = 'local_gpu'` or `'local'` - this changes whether nvidia-docker or docker should be used
+-- `image_name="crr0004/sagemaker-rl-tensorflow:nvidia"` or `""crr0004/sagemaker-rl-tensorflow:console"` - this changes whether GPU or CPU will be used
+-- `hyperparameters={...}` - this should be changed to your liking
+- guru's repo root:
+-- `mkdir -p robo/container` - used to store SageMaker image temporary files
+-- `mkdir robo/job` - used to store logs from RoboMaker
+-- `mkdir -p ~/.sagemaker && cp config.yaml ~/.sagemaker` - get configuration for sagemaker
+
+## Firing it up
+First step is to install sagemaker in our environment. To do this activate environment and type this command inside deepracer folder (guru's repo):
+`pip install -U sagemaker-python-sdk/`
+
+You may also want to configure awscli using this command: `aws configure`.
+
+### SageMaker startup
+`(cd rl_coach; python rl_deepracer_coach_robomaker.py)`
+
+### RoboMaker startup
+`(cd rl_coach; python rl_deepracer_coach_robomaker.py)`
