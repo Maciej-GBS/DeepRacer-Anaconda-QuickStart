@@ -17,6 +17,8 @@ It is a powerful tool that allows you to have multiple different installation of
 - Preferably a GPU (I won't cover setup for AMD graphics cards)
 - git obviously
 
+**NOTE** Cloning this repo is not required. It contains my scripts to run some common commands.
+
 ## Let's begin
 ### NVIDIA GPU setup
 Get nvidia drivers (using ppa is better but slightly more advanced). Reboot. Run `nvidia-smi` in terminal to verify installation.
@@ -65,11 +67,17 @@ Once downloaded some changes should be made:
 ## Firing it up
 First step is to install sagemaker in our environment. To do this activate environment and type this command inside deepracer folder (guru's repo):
 `pip install -U sagemaker-python-sdk/`
+If pip complains about wrong version of some package then rerun this command and it will install with no errors.
+This error is caused by default packages installed by conda to any new environment. It will break jupyter probably which is not needed in this environment anyway.
 
 You may also want to configure awscli using this command: `aws configure`.
 
+### Minio startup
+`minio server ANY_PATH_OF_YOUR_CHOICE`
+
 ### SageMaker startup
-`(cd rl_coach; python rl_deepracer_coach_robomaker.py)`
+`(cd rl_coach; python -s rl_deepracer_coach_robomaker.py)`
+**It is important to use `python -s` here because we want to use only packages from conda environment.** Common issue not using `-s` attribute is broken jupyter in the entire OS, due to old jsonschema version.
 
 ### RoboMaker startup
-`(cd rl_coach; python rl_deepracer_coach_robomaker.py)`
+`docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -v $(pwd)/simulation/aws-robomaker-sample-application-deepracer/simulation_ws/src:/app/robomaker-deepracer/simulation_ws/src -v $(pwd)/robo/job:/root/.ros/ -it crr0004/deepracer_robomaker:console "./run.sh build distributed_training.launch"`
