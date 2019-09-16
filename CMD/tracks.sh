@@ -1,2 +1,6 @@
-cd /home/gbs/Documents/HashCode/DeepRacer/deepracer
-find . -iname *track.npy
+cd `readlink -f $0 | xargs dirname`
+cd ..
+for i in `find . -iname *track.npy`
+do
+	basename $i | sed 's/\.npy//'
+done

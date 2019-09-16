@@ -1,1 +1,3 @@
-vi /home/gbs/Documents/HashCode/DeepRacer/deepracer/rl_coach/hyper.env
+cd `readlink -f $0 | xargs dirname`
+cd ..
+vi rl_coach/hyper.env

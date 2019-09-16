@@ -1,2 +1,4 @@
-source /home/gbs/Documents/HashCode/DeepRacer/deepracer/rl_coach/env.sh
+cd `readlink -f $0 | xargs dirname`
+cd ..
+source rl_coach/env.sh
 minio server /home/gbs/s3storage
