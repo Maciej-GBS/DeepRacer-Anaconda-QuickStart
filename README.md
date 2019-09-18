@@ -8,7 +8,7 @@ For help and more details about elements of DeepRacer local installation [refer 
 **Warning:** This repository is an adaptation of my way of using guru's DeepRacer repository. It is not plug and play like other fantastic repos (it is meant to be a source of information). It is a start for using guru's repo and building more on it.
 
 ## Why Anaconda?
-It is a powerful tool that allows you to have multiple different installation of Python environments including required libraries. It is convenient and helps to keep your system tidy.
+It is a powerful tool that allows you to have multiple different installation of Python environments including required libraries. It is convenient and helps keep your system tidy.
 
 ## What do you need?
 - Linux based host (this repo was tested on Ubuntu 18.04 LTS)
@@ -54,20 +54,32 @@ Disabling environment: `conda deactivate`
 
 ## Getting guru's repo
 I should walk through this here but I have added a new directory, which needs explanation.
+
 `git clone --recurse-submodules https://github.com/crr0004/deepracer.git`
+
 Once downloaded some changes should be made:
+
 - rl_coach/rl_deepracer_robomaker.py :
--- `instance_type = 'local_gpu'` or `'local'` - this changes whether nvidia-docker or docker should be used
--- `image_name="crr0004/sagemaker-rl-tensorflow:nvidia"` or `""crr0004/sagemaker-rl-tensorflow:console"` - this changes whether GPU or CPU will be used
--- `hyperparameters={...}` - this should be changed to your liking
+
+- - `instance_type = 'local_gpu'` or `'local'` - this changes whether nvidia-docker or docker should be used
+
+- - `image_name="crr0004/sagemaker-rl-tensorflow:nvidia"` or `""crr0004/sagemaker-rl-tensorflow:console"` - this changes whether GPU or CPU will be used
+
+- - `hyperparameters={...}` - this should be changed to your liking
+
 - guru's repo root:
--- `mkdir -p robo/container` - used to store SageMaker image temporary files
--- `mkdir -p ~/.sagemaker && cp config.yaml ~/.sagemaker` - get configuration for sagemaker
--- `mkdir robo/job` - my extra directory used to store logs from RoboMaker
+
+- - `mkdir -p robo/container` - used to store SageMaker image temporary files
+
+- - `mkdir -p ~/.sagemaker && cp config.yaml ~/.sagemaker` - get configuration for sagemaker
+
+- - `mkdir robo/job` - my extra directory used to store logs from RoboMaker
 
 ## Firing it up
 First step is to install sagemaker in our environment. To do this activate environment and type this command inside deepracer folder (guru's repo):
+
 `pip install -U sagemaker-python-sdk/`
+
 If pip complains about wrong version of some package then rerun this command and it will install with no errors.
 This error is caused by default packages installed by conda to any new environment. It will break jupyter probably which is not needed in this environment anyway.
 
@@ -78,6 +90,7 @@ You may also want to configure awscli using this command: `aws configure`.
 
 ### SageMaker startup
 `(cd rl_coach; python -s rl_deepracer_coach_robomaker.py)`
+
 **It is important to use `python -s` here because we want to use only packages from conda environment.** Common issue not using `-s` attribute is broken jupyter in the entire OS, due to old jsonschema version.
 
 ### RoboMaker startup
@@ -95,3 +108,6 @@ You need to use docker to correctly stop training.
 `docker stop [id of robomaker container] [id of sagemaker container]` you need to provide only first couple of letters of Id.
 
 `docker rm [id of sagemaker container]` RoboMaker was started with autoremove attribute, but SageMaker was started from Python file without autoremove.
+
+## CMD
+This folder contains bash script files that do most of that work. Every script assumes it is inside CMD folder in crr0004/DeepRacer repo. (`deepracer/CMD/`)
