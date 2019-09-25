@@ -132,7 +132,7 @@ Get [minio client](https://docs.min.io/docs/minio-client-complete-guide). I reco
 
 Minio client needs to know localhost access keys, so run this to add local minio as host:
 
-`mc host add http://127.0.0.1:9000 minio miniokey`
+`mc host add s3local http://127.0.0.1:9000 minio miniokey`
 
 Example usage:
 
