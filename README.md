@@ -130,6 +130,10 @@ These scripts allow to clean run training, stop and save training, update traini
 
 Get [minio client](https://docs.min.io/docs/minio-client-complete-guide). I recommend binary file for this `cd /usr/bin; sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc && sudo chmod 755 mc`.
 
+Minio client needs to know localhost access keys, so run this to add local minio as host:
+
+`mc host add http://127.0.0.1:9000 minio miniokey`
+
 Example usage:
 
 ```
