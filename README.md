@@ -110,4 +110,26 @@ You need to use docker to correctly stop training.
 `docker rm [id of sagemaker container]` RoboMaker was started with autoremove attribute, but SageMaker was started from Python file without autoremove.
 
 ## CMD
-This folder contains bash script files that do most of that work. Every script assumes it is inside CMD folder in crr0004/DeepRacer repo. (`deepracer/CMD/`)
+This folder contains bash script files that do most of that work.
+
+Expected folder hierarchy:
+`deepracer/
+---CMD/
+---... (all other crr0004 files)
+models/
+---Model-1 (example)
+---Model-2 (example)`
+
+`s3server.sh` can be run with modified path.
+
+### Automatic scripts
+These scripts allow to clean run training, stop and save training, update training model to local S3 bucket.
+
+Get [minio client](https://docs.min.io/docs/minio-client-complete-guide). I recommend binary file for this `cd /usr/bin; sudo wget https://dl.min.io/client/mc/release/linux-amd64/mc && sudo chmod 755 mc`.
+
+Example usage:
+
+`cd path/deepracer/CMD
+./autoupdate.sh ExistingModelName
+./autorun.sh
+./autostop.sh NewModelName`
