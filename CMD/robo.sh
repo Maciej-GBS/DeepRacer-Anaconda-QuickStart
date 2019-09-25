@@ -1,6 +1,9 @@
+PATH='/home/gbs/anaconda3/bin:'$PATH
+source activate awsdr
+
 cd `readlink -f $0 | xargs dirname`
+source ../rl_coach/env.sh
 cd ..
-source rl_coach/env.sh
 
 # No access to logs
 #docker run --rm --name dr --env-file ./robomaker.env --network sagemaker-local -p 8080:5900 -it crr0004/deepracer_robomaker:console
