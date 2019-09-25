@@ -114,17 +114,14 @@ This folder contains bash script files that do most of that work.
 
 Expected folder hierarchy:
 
-`deepracer/
-
+```
+deepracer/
 ---CMD/
-
 ---... (all other crr0004 files)
-
 models/
-
 ---Model-1 (example)
-
----Model-2 (example)`
+---Model-2 (example)
+```
 
 `s3server.sh` can be run with modified path.
 
@@ -135,10 +132,9 @@ Get [minio client](https://docs.min.io/docs/minio-client-complete-guide). I reco
 
 Example usage:
 
-`cd path/deepracer/CMD
-
+```
+cd path/deepracer/CMD
 ./autoupdate.sh ExistingModelName
-
 ./autorun.sh
-
-./autostop.sh NewModelName`
+./autostop.sh NewModelName
+```
