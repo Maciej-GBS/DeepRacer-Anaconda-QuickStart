@@ -7,7 +7,8 @@ if [ $# -gt 0 ]
 then
 	echo Update sequence initialized...
 else
-	echo Provide model name as argument
+	echo "Usage: $0 [model name] [OPTIONAL-metadata override]"
+	echo Available models:
 	ls $CMDROOT/../../models
 	exit
 fi
@@ -21,11 +22,15 @@ mc mb $s3location/rewards/
 echo Copying new $1 files...
 mc cp $1/checkpoint $s3location/pretrained/model/
 mc cp $1/*ckpt* $s3location/pretrained/model/
-mc cp $1/model_metadata.json $s3location/params/
+if [ $# -gt 1 ]; then
+	echo Overriding json with $2
+	mc cp $2 $s3location/params/model_metadata.json
+else
+	echo Using default model_metadata.json
+	mc cp $1/model_metadata.json $s3location/params/
+fi
 
 echo Copying rewards...
 cd ..
-mc cp racingliner.py $s3location/rewards/
-mc cp skillmaster.py $s3location/rewards/
-mc cp vettel.py $s3location/rewards/
+mc cp *.py $s3location/rewards/
 

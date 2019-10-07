@@ -7,6 +7,8 @@ For help and more details about elements of DeepRacer local installation [refer 
 
 **Warning:** This repository is an adaptation of my way of using guru's DeepRacer repository. It is not plug and play like other fantastic repos (it is meant to be a source of information). It is a start for using guru's repo and building more on it.
 
+**Risks:** Risk is on you. This repo contains bash scripts and can be potientially harmful to your computer (of course I did my best it does not but I give no warranty). I try to make this helpful but installing incorrectly can also lead to problems and you have to be aware of that.
+
 ## Why Anaconda?
 It is a powerful tool that allows you to have multiple different installation of Python environments including required libraries. It is convenient and helps keep your system tidy.
 
@@ -109,21 +111,49 @@ You need to use docker to correctly stop training.
 
 `docker rm [id of sagemaker container]` RoboMaker was started with autoremove attribute, but SageMaker was started from Python file without autoremove.
 
+## rl_coach
+This folder contains modified versions of files found on guru's repo.
+
+The only important change is support for loading hyperparameters from `hyper.env` file instead of modifing .py file every time.
+
 ## CMD
 This folder contains bash script files that do most of that work.
+
+`sage.sh` and `robo.sh` start Anaconda environment automatically so it is nice and convenient.
+
+**I highly recommend revising these scripts before running them.** `queuerun.sh` actually provides `simulate` option to verify expected output *but it does not verify subscripts it is using!!!* (pretty much all CMD scripts)
 
 Expected folder hierarchy:
 
 ```
 deepracer/
 ---CMD/
----... (all other crr0004 files)
+---robo/
+------job/
+------container/
+---all other crr0004 files
 models/
 ---Model-1 (example)
 ---Model-2 (example)
+myreward.py
+mybetterreward.py
 ```
 
 `s3server.sh` can be run with modified path.
+
+I am using also a custom folder hierarchy on Minio server, so here it is
+(if you do not like it you have to modify scripts yourself):
+
+```
+rewards/
+---myreward.py
+---mybetterreward.py
+pretrained/
+---model/
+------chkpt
+params/
+---model_metadata.json
+```
 
 ### Automatic scripts
 These scripts allow to clean run training, stop and save training, update training model to local S3 bucket.
@@ -142,3 +172,24 @@ cd path/deepracer/CMD
 ./autorun.sh
 ./autostop.sh NewModelName
 ```
+
+### Queue script
+This script is stored in folder `CMD/queue` and allows to run much more advanced training sequences automatically.
+
+```
+CMD/
+---queue/
+------queue.conf (auto-generated)
+------queuerun.sh
+------yourmetadata.json
+------higherspeed.json
+```
+
+`queuerun.sh` will provide you with help if started without any arguments (and many other scripts provide help if arguments were necessary).
+
+`queue.conf` contains details about training sequence. Script will read only those entries that start with a number.
+
+**ID has to be unique!**
+
+I recommend running `simulate` option to detect `queue.conf` errors.
+

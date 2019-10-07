@@ -2,7 +2,7 @@ CMDROOT=`readlink -f $0 | xargs dirname`
 cd $CMDROOT
 
 # Prepare for clean run
-$CMDROOT/cleanup.sh
+$CMDROOT/cleanup.sh nosudo
 mc rm -r --force s3local/bucket/rl-deepracer-sagemaker/
 mc rm --force s3local/bucket/metric.json
 
