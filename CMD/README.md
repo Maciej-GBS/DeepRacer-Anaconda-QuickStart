@@ -77,6 +77,37 @@ params/
 ---model_metadata.json
 ```
 
+### Script compatibility
+Some scripts work with all deepracer repos based on crr0004 work. These are:
+- tracks.sh
+- edit.sh
+- newreward.sh
+- newtrack.sh
+- preview.sh
+
+These may work if slight changes are applied:
+- cleanup.sh - requires setup for usage of `robo/job/` and `robo/container/` dirs
+- nosudo-clean - same as cleanup.sh
+- hyper.sh - requires modified `rl_coach/rl_deepracer_coach_robomaker.py` to handle hyperparams loading from `hyper.env`
+- s3server.sh - optional, starts server from binary file (alternative installation method), requires USERNAME update inside to work properly
+
+Scripts that work currently only with Anaconda installed deepracer but can be modified to work with pure crr0004 repo as well:
+- robo.sh
+- sage.sh
+- kill.sh
+
+Automatic scripts require all of the above scripts to work except:
+- s3server.sh (which should be started manually)
+- user interface scripts: edit.sh, preview.sh, hyper.sh
+
+Automatic scripts that require special configuration:
+- autorun.sh - needs to run clean-up (can be commented if you do not want to clean), uses `mc` to remove previous run sagemaker bucket, starts sage.sh and robo.sh
+- autostop.sh - will use `docker stop` to kill **ALL docker containers**, waits 10 seconds and removes ALL docker containers that did not remove automatically, generally if you run minio on docker you have to upgrade this script that it does remove only Sage and Robo containers
+- autoupdate.sh - will send a model from models/ directory using `mc` (minio client) which installation has been already explained
+- queuerun.sh - will work as soon as other auto scripts work
+
+*I will accept pull requests that extend support for other repos but only if changes are made on a separate branch (e.g. ARCC-dr-dummies branch)*
+
 ### Automatic scripts
 These scripts allow to clean run training, stop and save training, update training model to local S3 bucket.
 
